@@ -85,6 +85,7 @@ new VectorLayer({
 var svg = document.querySelector(".svg");
 updateSvg();
 view.on("change:resolution", updateSvg);
+window.addEventListener("resize", updateSvg);
 
 function updateSvg() {
   var H = svg.clientHeight * map.getView().getResolution();
