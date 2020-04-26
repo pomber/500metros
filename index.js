@@ -24,12 +24,7 @@ var map = new Map({
   view: view,
 });
 
-// setInterval(() => {
-//   console.log(METERS_PER_UNIT["m"], map.getView().getResolution());
-// });
-
 var geolocation = new Geolocation({
-  // enableHighAccuracy must be set to true to have the heading value.
   trackingOptions: {
     enableHighAccuracy: true,
   },
@@ -38,20 +33,10 @@ var geolocation = new Geolocation({
 
 geolocation.setTracking(true);
 
-// update the HTML page when the position changes.
-geolocation.on("change", function () {
-  // el("speed").innerText = geolocation.getSpeed() + " [m/s]";
-});
-
 // handle geolocation error.
 geolocation.on("error", function (error) {
   console.log("error", error.message);
 });
-
-// var accuracyFeature = new Feature();
-// geolocation.on("change:accuracyGeometry", function () {
-//   accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-// });
 
 var positionFeature = new Feature();
 positionFeature.setStyle(
@@ -69,10 +54,14 @@ positionFeature.setStyle(
   })
 );
 
+var autocenter = true;
 geolocation.on("change:position", function () {
   var coordinates = geolocation.getPosition();
   positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
-  view.setCenter(coordinates);
+  if (autocenter && coordinates) {
+    view.setCenter(coordinates);
+    autocenter = false;
+  }
 });
 
 new VectorLayer({
@@ -94,6 +83,12 @@ function updateSvg() {
 }
 
 document.querySelector(".my-location").addEventListener("click", () => {
-  var coordinates = geolocation.getPosition();
-  view.setCenter(coordinates);
+  const isTracking = geolocation.getTracking();
+  if (isTracking) {
+    var coordinates = geolocation.getPosition();
+    view.setCenter(coordinates);
+  } else {
+    geolocation.setTracking(true);
+  }
+  console.log(geolocation.getTracking());
 });
