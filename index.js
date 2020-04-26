@@ -7,10 +7,11 @@ import Point from "ol/geom/Point";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { fromLonLat, METERS_PER_UNIT } from "ol/proj";
 
 var view = new View({
-  center: [0, 0],
-  zoom: 2,
+  center: fromLonLat([-58.3816, -34.6037]),
+  zoom: 15,
 });
 
 var map = new Map({
@@ -23,6 +24,10 @@ var map = new Map({
   view: view,
 });
 
+// setInterval(() => {
+//   console.log(METERS_PER_UNIT["m"], map.getView().getResolution());
+// });
+
 var geolocation = new Geolocation({
   // enableHighAccuracy must be set to true to have the heading value.
   trackingOptions: {
@@ -31,40 +36,28 @@ var geolocation = new Geolocation({
   projection: view.getProjection(),
 });
 
-function el(id) {
-  return document.getElementById(id);
-}
-
-el("track").addEventListener("change", function () {
-  geolocation.setTracking(this.checked);
-});
+geolocation.setTracking(true);
 
 // update the HTML page when the position changes.
 geolocation.on("change", function () {
-  el("accuracy").innerText = geolocation.getAccuracy() + " [m]";
-  el("altitude").innerText = geolocation.getAltitude() + " [m]";
-  el("altitudeAccuracy").innerText = geolocation.getAltitudeAccuracy() + " [m]";
-  el("heading").innerText = geolocation.getHeading() + " [rad]";
-  el("speed").innerText = geolocation.getSpeed() + " [m/s]";
+  // el("speed").innerText = geolocation.getSpeed() + " [m/s]";
 });
 
 // handle geolocation error.
 geolocation.on("error", function (error) {
-  var info = document.getElementById("info");
-  info.innerHTML = error.message;
-  info.style.display = "";
+  console.log("error", error.message);
 });
 
-var accuracyFeature = new Feature();
-geolocation.on("change:accuracyGeometry", function () {
-  accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-});
+// var accuracyFeature = new Feature();
+// geolocation.on("change:accuracyGeometry", function () {
+//   accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+// });
 
 var positionFeature = new Feature();
 positionFeature.setStyle(
   new Style({
     image: new CircleStyle({
-      radius: 6,
+      radius: 5,
       fill: new Fill({
         color: "#3399CC",
       }),
@@ -79,11 +72,23 @@ positionFeature.setStyle(
 geolocation.on("change:position", function () {
   var coordinates = geolocation.getPosition();
   positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+  view.setCenter(coordinates);
 });
 
 new VectorLayer({
   map: map,
   source: new VectorSource({
-    features: [accuracyFeature, positionFeature],
+    features: [positionFeature],
   }),
 });
+
+var svg = document.getElementById("svg");
+updateSvg();
+svg.style.visibility = "visible";
+view.on("change:resolution", updateSvg);
+
+function updateSvg() {
+  var H = svg.clientHeight * map.getView().getResolution();
+  var W = svg.clientWidth * map.getView().getResolution();
+  svg.setAttribute("viewBox", `${-W / 2} ${-H / 2} ${W} ${H}`);
+}
