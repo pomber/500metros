@@ -82,7 +82,7 @@ new VectorLayer({
   }),
 });
 
-var svg = document.getElementById("svg");
+var svg = document.querySelector(".svg");
 updateSvg();
 view.on("change:resolution", updateSvg);
 
