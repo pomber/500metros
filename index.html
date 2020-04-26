@@ -2,8 +2,7 @@
 <html lang="es">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>500 metros punto com</title>
-    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <title>500 metros</title>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
     <style>
       body {
@@ -52,6 +51,21 @@
       }
       p {
         margin: 8px 0;
+      }
+
+      .my-location {
+        position: fixed;
+        bottom: 40px;
+        right: 25px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+        padding: 12px;
+        cursor: pointer;
+      }
+      .my-location path {
+        stroke: black;
+        stroke-width: 5px;
       }
     </style>
   </head>
@@ -113,6 +127,33 @@
         <a href="https://github.com/pomber/500metros">GitHub</a>
       </p>
     </div>
+    <svg
+      class="my-location"
+      xmlns="http://www.w3.org/2000/svg"
+      height="32px"
+      width="32px"
+      viewBox="0 0 128 128"
+      xml:space="preserve"
+    >
+      <path
+        d="M63.999,104.752c-22.444,0-40.704-18.26-40.704-40.704c0-22.444,18.26-40.703,40.704-40.703s40.704,18.259,40.704,40.703  C104.703,86.492,86.443,104.752,63.999,104.752z M63.999,27.345c-20.238,0-36.704,16.465-36.704,36.703  c0,20.239,16.466,36.704,36.704,36.704s36.704-16.465,36.704-36.704C100.703,43.81,84.237,27.345,63.999,27.345z"
+      />
+      <path
+        d="M63.999,83.962c-10.981,0-19.915-8.933-19.915-19.914s8.934-19.916,19.915-19.916s19.916,8.934,19.916,19.916  S74.98,83.962,63.999,83.962z M63.999,48.132c-8.775,0-15.915,7.14-15.915,15.916c0,8.774,7.14,15.914,15.915,15.914  c8.776,0,15.916-7.14,15.916-15.914C79.915,55.272,72.775,48.132,63.999,48.132z"
+      />
+      <path
+        d="M63.999,27.345c-1.104,0-2-0.896-2-2V12.882c0-1.104,0.896-2,2-2s2,0.896,2,2v12.462  C65.999,26.449,65.104,27.345,63.999,27.345z"
+      />
+      <path
+        d="M63.999,117.146c-1.104,0-2-0.896-2-2v-12.394c0-1.104,0.896-2,2-2s2,0.896,2,2v12.394  C65.999,116.25,65.104,117.146,63.999,117.146z"
+      />
+      <path
+        d="M25.295,66.048H12.868c-1.104,0-2-0.896-2-2c0-1.105,0.896-2,2-2h12.427c1.104,0,2,0.895,2,2  C27.295,65.152,26.399,66.048,25.295,66.048z"
+      />
+      <path
+        d="M115.132,66.048h-12.429c-1.104,0-2-0.896-2-2c0-1.105,0.896-2,2-2h12.429c1.104,0,2,0.895,2,2  C117.132,65.152,116.236,66.048,115.132,66.048z"
+      />
+    </svg>
     <script src="index.js"></script>
   </body>
 </html>

@@ -92,3 +92,8 @@ function updateSvg() {
   var W = svg.clientWidth * map.getView().getResolution();
   svg.setAttribute("viewBox", `${-W / 2} ${-H / 2} ${W} ${H}`);
 }
+
+document.querySelector(".my-location").addEventListener("click", () => {
+  var coordinates = geolocation.getPosition();
+  view.setCenter(coordinates);
+});
