@@ -7,7 +7,7 @@ import Point from "ol/geom/Point";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
-import { fromLonLat, METERS_PER_UNIT } from "ol/proj";
+import { fromLonLat } from "ol/proj";
 
 var view = new View({
   center: fromLonLat([-58.3816, -34.6037]),
@@ -90,5 +90,4 @@ document.querySelector(".my-location").addEventListener("click", () => {
   } else {
     geolocation.setTracking(true);
   }
-  console.log(geolocation.getTracking());
 });
