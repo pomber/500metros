@@ -84,7 +84,6 @@ new VectorLayer({
 
 var svg = document.getElementById("svg");
 updateSvg();
-svg.style.visibility = "visible";
 view.on("change:resolution", updateSvg);
 
 function updateSvg() {
