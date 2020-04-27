@@ -77,8 +77,17 @@ view.on("change:resolution", updateSvg);
 window.addEventListener("resize", updateSvg);
 
 function updateSvg() {
-  var H = svg.clientHeight * map.getView().getResolution();
-  var W = svg.clientWidth * map.getView().getResolution();
+  var coords = view.getCenter();
+  var resolution = view.getResolution();
+  var projection = view.getProjection();
+  var resolutionAtCoords = projection.getPointResolutionFunc_(
+    resolution,
+    coords
+  );
+
+  var H = svg.clientHeight * resolutionAtCoords;
+  var W = svg.clientWidth * resolutionAtCoords;
+
   svg.setAttribute("viewBox", `${-W / 2} ${-H / 2} ${W} ${H}`);
 }
 
