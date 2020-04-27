@@ -8,6 +8,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import { fromLonLat } from "ol/proj";
+import { defaults, MouseWheelZoom } from "ol/interaction";
 
 var view = new View({
   center: fromLonLat([-58.3816, -34.6037]),
@@ -15,6 +16,7 @@ var view = new View({
 });
 
 var map = new Map({
+  interactions: defaults().extend([new MouseWheelZoom({ useAnchor: false })]),
   layers: [
     new TileLayer({
       source: new OSM(),
